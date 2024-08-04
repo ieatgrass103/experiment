@@ -5,8 +5,20 @@ local Settings = {
     CommandKey = "BackSlash", -- see: "https://developer.roblox.com/en-us/api-reference/enum/KeyCode" for all key codes
     GuiLogo = "http://www.roblox.com/asset/?id=5234318900"
 }
+--/ Imports command prompt library
+local spaceSplit = '0'
+local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/VisualRoblox/Roblox/main/UI-Libraries/Visual%20Command%20UI%20Library/Source.lua', true))()
 
-
+local Window = Library:CreateWindow({
+    Name = 'Fedora Version whatever',
+    IntroText = 'Fedora but i made it better(its really not)',
+    IntroIcon = 'rbxassetid://10618644218',
+    IntroBlur = true,
+    IntroBlurIntensity = 15,
+    Theme = Library.Themes.dark,
+    Position = 'bottom',
+    Draggable = true,
+    Prefix = '.'
 
 --/ Important checks 'n waiting for stuff to load or smthing
 
@@ -638,100 +650,106 @@ nsLoop = game:GetService("RunService").Stepped:Connect(function()
         end
     end
 end)
+--This is the start of my alterations to Fedora Admin using the UI library
 
-local cc;cc = plr.Chatted:Connect(function(msg)
-    local spaceSplit = msg:split(" ")
-    if spaceSplit[1] == ".bring" or spaceSplit[1] == "/e bring" then
-local target = getPlr(tostring(spaceSplit[2]):lower())
-        local old = getChar().HumanoidRootPart.CFrame
-        local tool = getBp():FindFirstChildOfClass("Tool") or getChar():FindFirstChildOfClass("Tool")
-        tool.Grip = CFrame.new(-4,-2,-2)
-        if target == nil or tool == nil then return end
-        local attWeld = attachTool(tool,CFrame.new(0,0,0))
-        attachTool(tool,CFrame.new(0,0,0.2) * CFrame.Angles(math.rad(-90),0,0)) 
-        firetouchinterest(target.Character.Humanoid.RootPart,tool.Handle,0)
-        firetouchinterest(target.Character.Humanoid.RootPart,tool.Handle,1)
- tool.AncestryChanged:Wait() 
-if plr.Character.Humanoid.RigType == Enum.HumanoidRigType.R6 then
-    --plr.Character["Right Arm"]:Destroy()
-    game.Players.LocalPlayer.Character["Right Arm"].RightGrip:Destroy() --r6
-elseif plr.Character.Humanoid.RigType == Enum.HumanoidRigType.R15 then
-    --plr.Character["RightHand"]:Destroy()
-    game.Players.LocalPlayer.Character.RightHand.RightGrip:Destroy() --r15
-  end
-        getChar().HumanoidRootPart.CFrame = old
-        plr.CharacterAdded:Wait()
-        getChar():WaitForChild("HumanoidRootPart").CFrame = old
+Window:AddCommand('Bring', {'player'}, 'Brings a player(likely doesnt work)', function(Arguments, Speaker)
+	local target = getPlr(tostring(Arguments[1]):lower())
+	    	local old = getChar().HumanoidRootPart.CFrame
+ 	       local tool = getBp():FindFirstChildOfClass("Tool") or getChar():FindFirstChildOfClass("Tool")
+ 	       tool.Grip = CFrame.new(-4,-2,-2)
+ 	       if target == nil or tool == nil then return end
+ 	       local attWeld = attachTool(tool,CFrame.new(0,0,0))
+ 	       attachTool(tool,CFrame.new(0,0,0.2) * CFrame.Angles(math.rad(-90),0,0)) 
+ 	       firetouchinterest(target.Character.Humanoid.RootPart,tool.Handle,0)
+ 	       firetouchinterest(target.Character.Humanoid.RootPart,tool.Handle,1)
+	 tool.AncestryChanged:Wait() 
+	if plr.Character.Humanoid.RigType == Enum.HumanoidRigType.R6 then
+	    --plr.Character["Right Arm"]:Destroy()
+	    game.Players.LocalPlayer.Character["Right Arm"].RightGrip:Destroy() --r6
+	elseif plr.Character.Humanoid.RigType == Enum.HumanoidRigType.R15 then
+	    --plr.Character["RightHand"]:Destroy()
+	    game.Players.LocalPlayer.Character.RightHand.RightGrip:Destroy() --r15
+	  end
+  	      getChar().HumanoidRootPart.CFrame = old
+  	      plr.CharacterAdded:Wait()
+   	     getChar():WaitForChild("HumanoidRootPart").CFrame = old    
+end)
+
+
+Window:AddCommand('Bring2', {'player'}, 'Brings a player(likely doesnt work)', function(Arguments, Speaker)  
+	local target = getPlr(tostring(Arguments[1]):lower())
+ 	       local old = getChar().HumanoidRootPart.CFrame
+	        local tool = getBp():FindFirstChildOfClass("Tool") or getChar():FindFirstChildOfClass("Tool")
         
-        elseif spaceSplit[1] == ".bring2" or spaceSplit[1] == "/e bring2" then
-local target = getPlr(tostring(spaceSplit[2]):lower())
-        local old = getChar().HumanoidRootPart.CFrame
-        local tool = getBp():FindFirstChildOfClass("Tool") or getChar():FindFirstChildOfClass("Tool")
-        
-        if target == nil or tool == nil then return end
-        local c = getChar()
-	plr.Character = nil
-        plr.Character = c
-        wait(players.RespawnTime - 0)
-game.Players.LocalPlayer.Character.Humanoid.Name = 1
-local l = game.Players.LocalPlayer.Character["1"]:Clone()
-l.Parent = game.Players.LocalPlayer.Character
-l.Name = "Humanoid"
+	        if target == nil or tool == nil then return end
+	        local c = getChar()
+		plr.Character = nil
+	        plr.Character = c
+	        wait(players.RespawnTime - 0)
+	game.Players.LocalPlayer.Character.Humanoid.Name = 1
+	local l = game.Players.LocalPlayer.Character["1"]:Clone()
+	l.Parent = game.Players.LocalPlayer.Character
+	l.Name = "Humanoid"
             
-game.Players.LocalPlayer.Character["1"]:Destroy()
-game.Workspace.CurrentCamera.CameraSubject = game.Players.LocalPlayer.Character
-game.Players.LocalPlayer.Character.Animate.Disabled = true
-wait()
-game.Players.LocalPlayer.Character.Animate.Disabled = false
-game.Players.LocalPlayer.Character.Humanoid.DisplayDistanceType = "None"
-tool.Parent = getChar()
-        firetouchinterest(target.Character.Humanoid.RootPart,tool.Handle,0)
-        firetouchinterest(target.Character.Humanoid.RootPart,tool.Handle,1)
-        local old = c.HumanoidRootPart.CFrame
- tool.AncestryChanged:Wait() 
-        getChar().HumanoidRootPart.CFrame = old
-        plr.CharacterAdded:Wait()
-        getChar():WaitForChild("HumanoidRootPart").CFrame = old
-
-        elseif spaceSplit[1] == ".handletouch" or spaceSplit[1] == ".ht" then
-local target = getPlr(tostring(spaceSplit[2]):lower())
-        local tool = getBp():FindFirstChildOfClass("Tool") or getChar():FindFirstChildOfClass("Tool")
-        if target == nil or tool == nil then return end
-        firetouchinterest(target.Character.Humanoid.RootPart,tool.Handle,0)
-        firetouchinterest(target.Character.Humanoid.RootPart,tool.Handle,1)
-
+	game.Players.LocalPlayer.Character["1"]:Destroy()
+	game.Workspace.CurrentCamera.CameraSubject = game.Players.LocalPlayer.Character
+	game.Players.LocalPlayer.Character.Animate.Disabled = true
+	wait()
+	game.Players.LocalPlayer.Character.Animate.Disabled = false
+	game.Players.LocalPlayer.Character.Humanoid.DisplayDistanceType = "None"
+	tool.Parent = getChar()
+	        firetouchinterest(target.Character.Humanoid.RootPart,tool.Handle,0)
+	        firetouchinterest(target.Character.Humanoid.RootPart,tool.Handle,1)
+	        local old = c.HumanoidRootPart.CFrame
+	 tool.AncestryChanged:Wait() 
+	        getChar().HumanoidRootPart.CFrame = old
+	        plr.CharacterAdded:Wait()
+	        getChar():WaitForChild("HumanoidRootPart").CFrame = old
+end)        
         
-    elseif spaceSplit[1] == ".jail" or spaceSplit[1] == "/e jail" then
-    if wl == true then
-local target = getPlr(tostring(spaceSplit[2]):lower())
-        local old = getChar().HumanoidRootPart.CFrame
-        local tool = getBp():FindFirstChildOfClass("Tool") or getChar():FindFirstChildOfClass("Tool")
-        
-        tool.Grip = CFrame.new(-6,-2,-2)
-        if target == nil or tool == nil then return end
-        local attWeld = attachTool(tool,CFrame.new(0,0,0))
-        attachTool(tool,CFrame.new(0,0,0.2) * CFrame.Angles(math.rad(-90),0,0)) 
-        firetouchinterest(target.Character.Humanoid.RootPart,tool.Handle,0)
-        firetouchinterest(target.Character.Humanoid.RootPart,tool.Handle,1)
- tool.AncestryChanged:Wait()
-        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-500.6249, -295.6214, -484.3573, 0.5995, 0, -0.8004, 0, 1, 0, 0.8004, 0, 0.5995)
-        wait(0.3)
-if plr.Character.Humanoid.RigType == Enum.HumanoidRigType.R6 then
-    --plr.Character["Right Arm"]:Destroy()
-    game.Players.LocalPlayer.Character["Right Arm"].RightGrip:Destroy() --r6
-elseif plr.Character.Humanoid.RigType == Enum.HumanoidRigType.R15 then
-    --plr.Character["RightHand"]:Destroy()
-    game.Players.LocalPlayer.Character.RightHand.RightGrip:Destroy() --r15
-  end
-        wait(0.1)
-        getChar().HumanoidRootPart.CFrame = old
-        plr.CharacterAdded:Wait()
-        getChar():WaitForChild("HumanoidRootPart").CFrame = old
-        else
-        Chat("|NOT WHITELISTED|")
-	end
-	
-        elseif spaceSplit[1] == ".digmuf" or spaceSplit[1] == "/e digmuf" then
+Window:AddCommand('HandleTouch', {'player'}, 'I beilieve that this script enables collision with gears but im not sure', function(Arguments, Speaker)
+	local target = getPlr(tostring(Arguments[1]):lower())
+	        local tool = getBp():FindFirstChildOfClass("Tool") or getChar():FindFirstChildOfClass("Tool")
+	        if target == nil or tool == nil then return end
+	        firetouchinterest(target.Character.Humanoid.RootPart,tool.Handle,0)
+	        firetouchinterest(target.Character.Humanoid.RootPart,tool.Handle,1)	
+end)
+
+
+
+Window:AddCommand('Jail', {'player'}, 'I believe this jails a player', function(Arguments, Speaker)
+	    if wl == true then
+	local target = getPlr(tostring(Arguments[1]):lower())
+	        local old = getChar().HumanoidRootPart.CFrame
+	        local tool = getBp():FindFirstChildOfClass("Tool") or getChar():FindFirstChildOfClass("Tool")
+	        
+	        tool.Grip = CFrame.new(-6,-2,-2)
+	        if target == nil or tool == nil then return end
+	        local attWeld = attachTool(tool,CFrame.new(0,0,0))
+	        attachTool(tool,CFrame.new(0,0,0.2) * CFrame.Angles(math.rad(-90),0,0)) 
+	        firetouchinterest(target.Character.Humanoid.RootPart,tool.Handle,0)
+	        firetouchinterest(target.Character.Humanoid.RootPart,tool.Handle,1)
+	 tool.AncestryChanged:Wait()
+	        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-500.6249, -295.6214, -484.3573, 0.5995, 0, -0.8004, 0, 1, 0, 0.8004, 0, 0.5995)
+	        wait(0.3)
+	if plr.Character.Humanoid.RigType == Enum.HumanoidRigType.R6 then
+	    --plr.Character["Right Arm"]:Destroy()
+	    game.Players.LocalPlayer.Character["Right Arm"].RightGrip:Destroy() --r6
+	elseif plr.Character.Humanoid.RigType == Enum.HumanoidRigType.R15 then
+	    --plr.Character["RightHand"]:Destroy()
+	    game.Players.LocalPlayer.Character.RightHand.RightGrip:Destroy() --r15
+	  end
+	        wait(0.1)
+	        getChar().HumanoidRootPart.CFrame = old
+	        plr.CharacterAdded:Wait()
+	        getChar():WaitForChild("HumanoidRootPart").CFrame = old
+	        else
+	        Chat("|NOT WHITELISTED|")
+		end
+end)
+
+
+Window:AddCommand('DigMuffy', {}, 'Makes a hole with muffy', function(Arguments, Speaker)
     if wl == true then
 	game.Workspace.muffy.Tail.CanCollide = false
 			game.Workspace.muffy["Smooth Block Model"].CanCollide = false
@@ -761,137 +779,148 @@ elseif plr.Character.Humanoid.RigType == Enum.HumanoidRigType.R15 then
 	end
 	
 	
-    elseif spaceSplit[1] == ".boom" or spaceSplit[1] == "/e bm" then
-    if wl == true then
-local target = getPlr(tostring(spaceSplit[2]):lower())
-	game.Workspace.muffy.Tail.CanCollide = false
-			game.Workspace.muffy["Smooth Block Model"].CanCollide = false
-			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.muffy.Torso.CFrame * CFrame.new(0,-1,0) -- teleport to muffy
-			task.wait(0.3)
-			spawn(function()
-			local counter = 0 
-			while counter ~= 500 do -- when this condition is false(when the counter = 3) the loop will stop
-				game.Workspace.muffy.Torso.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0,1,0) -- muffy teleport to you
-				task.wait(.01)
-				counter = counter + 1 -- adding one to the counter after every loop
-			end
-		end)
-		getChar().HumanoidRootPart.CFrame = target.Character.Humanoid.RootPart.CFrame
-			task.wait(0.5)
-		spawn(function()
-			for _, v in pairs(game:GetService("Workspace"):FindFirstChild("                                                 "):GetDescendants()) do
-				if v:IsA("TouchTransmitter") or v:IsA("TouchInterest") then
-					firetouchinterest(game.Workspace.muffy.Torso, v:FindFirstAncestorWhichIsA("Part"),0) -- kills muffy
-					firetouchinterest(game.Workspace.muffy.Torso, v:FindFirstAncestorWhichIsA("Part"),1)
+end)		
 
+Window:AddCommand('Boom', {'player'}, 'Explodes Muffy on a player', function(Arguments, Speaker)
+	    if wl == true then
+	local target = getPlr(tostring(Arguments[1]):lower())
+		game.Workspace.muffy.Tail.CanCollide = false
+				game.Workspace.muffy["Smooth Block Model"].CanCollide = false
+				game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.muffy.Torso.CFrame * CFrame.new(0,-1,0) -- teleport to muffy
+				task.wait(0.3)
+				spawn(function()
+				local counter = 0 
+				while counter ~= 500 do -- when this condition is false(when the counter = 3) the loop will stop
+					game.Workspace.muffy.Torso.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0,1,0) -- muffy teleport to you
+					task.wait(.01)
+					counter = counter + 1 -- adding one to the counter after every loop
 				end
-			end
-		end)
-        plr.CharacterAdded:Wait()
-        getChar():WaitForChild("HumanoidRootPart").CFrame = old
-        else
-        Chat("|NOT WHITELISTED|")
-	end
-        
-    elseif spaceSplit[1] == ".charactergoto" or spaceSplit[1] == ".cgoto" then
-    if wl == true then
-local target = getPlr(tostring(spaceSplit[2]):lower())
-game.Workspace.muffy.Torso.CFrame = target.Character.HumanoidRootPart.CFrame * CFrame.new(0,1,0)
-        game.Workspace.socky.Torso.CFrame = target.Character.HumanoidRootPart.CFrame * CFrame.new(0,1,0)
-        game.Workspace.girl.Torso.CFrame = target.Character.HumanoidRootPart.CFrame * CFrame.new(0,1,0)
-        game.Workspace.muffy.Torso.CFrame = target.Character.HumanoidRootPart.CFrame * CFrame.new(0,1,0)
-        game.Workspace.socky.Torso.CFrame = target.Character.HumanoidRootPart.CFrame * CFrame.new(0,1,0)
-        game.Workspace.girl.Torso.CFrame = target.Character.HumanoidRootPart.CFrame * CFrame.new(0,1,0)
-        game.Workspace.muffy.Torso.CFrame = target.Character.HumanoidRootPart.CFrame * CFrame.new(0,1,0)
-        game.Workspace.socky.Torso.CFrame = target.Character.HumanoidRootPart.CFrame * CFrame.new(0,1,0)
-        game.Workspace.girl.Torso.CFrame = target.Character.HumanoidRootPart.CFrame * CFrame.new(0,1,0)
-        else
-        Chat("|NOT WHITELISTED|")
-    end
-elseif spaceSplit[1] == ".hatmuf" or spaceSplit[1] == ".gh" then
-    local c = game.Players.LocalPlayer.Character
-local hrp = c.HumanoidRootPart
-local h = c.Humanoid
-local oldcframe = hrp.CFrame
-
-local muffy = workspace.muffy
-
-if c:FindFirstChildWhichIsA("Accessory") then
-    spawn(function()
-    while task.wait() do
-        hrp.CFrame = muffy:FindFirstChild("Head").CFrame
-    end
-    end)
-    wait(.5)
-    h:Destroy()
-    wait(1)
-    c:Destroy()
-    game.Players.LocalPlayer.CharacterAdded:Connect(function(c)
-        task.wait()
-        c.HumanoidRootPart.CFrame = oldcframe
-        end)
-    end
-
-	elseif spaceSplit[1] == ".loopcharactergoto" or spaceSplit[1] == ".loopcgoto" then
-    if wl == true then
-local target = getPlr(tostring(spaceSplit[2]):lower())
-clg = true
-repeat wait()
-game.Workspace.muffy.Torso.CFrame = target.Character.HumanoidRootPart.CFrame * CFrame.new(0,1,0)
-        game.Workspace.socky.Torso.CFrame = target.Character.HumanoidRootPart.CFrame * CFrame.new(0,1,0)
-        game.Workspace.girl.Torso.CFrame = target.Character.HumanoidRootPart.CFrame * CFrame.new(0,1,0)
-        until clg == false
-        else
-        Chat("|NOT WHITELISTED|")
-	end
-	
-	elseif spaceSplit[1] == ".unloopcharactergoto" or spaceSplit[1] == ".unloopcgoto" then
-    if wl == true then
- clg = false
-        else
-        Chat("|NOT WHITELISTED|")
-	end
-	
-	elseif spaceSplit[1] == ".kick"  then
-
-		    kick = true
-local target = getPlr(tostring(spaceSplit[2]):lower())
-    repeat wait()
-        local old = getChar().HumanoidRootPart.CFrame
-        local tool = getBp():FindFirstChildOfClass("Tool") or getChar():FindFirstChildOfClass("Tool")
-        game.Players.LocalPlayer.Character.Animate.Disabled = true
-loadstring(game:HttpGet("https://raw.githubusercontent.com/DigitalityScripts/roblox-scripts/main/Leg%20Resize"))()
-wait()
-if target == nil or tool == nil then return end
-        local attWeld = attachTool(tool,CFrame.new(0,0,0))
-        attachTool(tool,CFrame.new(0,0,0.2) * CFrame.Angles(math.rad(-90),0,0)) 
-        firetouchinterest(target.Character.Humanoid.RootPart,tool.Handle,0)
-        firetouchinterest(target.Character.Humanoid.RootPart,tool.Handle,1)
-
-        target.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0,0,-1.5)
-        tool.AncestryChanged:Wait()
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(0, 99, 0)
-
-			local power = 9999 -- 9999999999999999999999999999999999
-
-			game:GetService('RunService').Stepped:connect(function()
-				game.Players.LocalPlayer.Character.Head.CanCollide = true
-				game.Players.LocalPlayer.Character.UpperTorso.CanCollide = true
-				game.Players.LocalPlayer.Character.LowerTorso.CanCollide = true
-				game.Players.LocalPlayer.Character.HumanoidRootPart.CanCollide = true
 			end)
-			wait(.1)
-			local bambam = Instance.new("BodyThrust")
-			bambam.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
-			bambam.Force = Vector3.new(power,999999999999999999999999999999999,power)
-			bambam.Location = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
-			plr.CharacterAdded:Wait()
-        getChar():WaitForChild("HumanoidRootPart").CFrame = old
-        until target == nil or tool == nil  
+			getChar().HumanoidRootPart.CFrame = target.Character.Humanoid.RootPart.CFrame
+				task.wait(0.5)
+			spawn(function()
+				for _, v in pairs(game:GetService("Workspace"):FindFirstChild("                                                 "):GetDescendants()) do
+					if v:IsA("TouchTransmitter") or v:IsA("TouchInterest") then
+						firetouchinterest(game.Workspace.muffy.Torso, v:FindFirstAncestorWhichIsA("Part"),0) -- kills muffy
+						firetouchinterest(game.Workspace.muffy.Torso, v:FindFirstAncestorWhichIsA("Part"),1)
+	
+					end
+				end
+			end)
+	        plr.CharacterAdded:Wait()
+	        getChar():WaitForChild("HumanoidRootPart").CFrame = old
+	        else
+	        Chat("|NOT WHITELISTED|")
+		end
         
-        
-    elseif spaceSplit[1] == ".givetool" or spaceSplit[1] == "/e givetool" then
-        local target = getPlr(tostring(spaceSplit[2]):lower())
+end)
+
+
+Window:AddCommand('CharacterGoTo', {'player'}, 'I think this loop teleports you to someone', function(Arguments, Speaker)
+	    if wl == true then
+	local target = getPlr(tostring(Arguments[1]):lower())
+	game.Workspace.muffy.Torso.CFrame = target.Character.HumanoidRootPart.CFrame * CFrame.new(0,1,0)
+	        game.Workspace.socky.Torso.CFrame = target.Character.HumanoidRootPart.CFrame * CFrame.new(0,1,0)
+	        game.Workspace.girl.Torso.CFrame = target.Character.HumanoidRootPart.CFrame * CFrame.new(0,1,0)
+	        game.Workspace.muffy.Torso.CFrame = target.Character.HumanoidRootPart.CFrame * CFrame.new(0,1,0)
+	        game.Workspace.socky.Torso.CFrame = target.Character.HumanoidRootPart.CFrame * CFrame.new(0,1,0)
+	        game.Workspace.girl.Torso.CFrame = target.Character.HumanoidRootPart.CFrame * CFrame.new(0,1,0)
+	        game.Workspace.muffy.Torso.CFrame = target.Character.HumanoidRootPart.CFrame * CFrame.new(0,1,0)
+	        game.Workspace.socky.Torso.CFrame = target.Character.HumanoidRootPart.CFrame * CFrame.new(0,1,0)
+	        game.Workspace.girl.Torso.CFrame = target.Character.HumanoidRootPart.CFrame * CFrame.new(0,1,0)
+	        else
+	        Chat("|NOT WHITELISTED|")
+	    end
+	
+	
+end)		
+elseif spaceSplit[1] == ".hatmuf" or spaceSplit[1] == ".gh" then
+	    local c = game.Players.LocalPlayer.Character
+	local hrp = c.HumanoidRootPart
+	local h = c.Humanoid
+	local oldcframe = hrp.CFrame
+	
+	local muffy = workspace.muffy
+	
+	if c:FindFirstChildWhichIsA("Accessory") then
+	    spawn(function()
+	    while task.wait() do
+	        hrp.CFrame = muffy:FindFirstChild("Head").CFrame
+	    end
+	    end)
+	    wait(.5)
+	    h:Destroy()
+	    wait(1)
+	    c:Destroy()
+	    game.Players.LocalPlayer.CharacterAdded:Connect(function(c)
+	        task.wait()
+	        c.HumanoidRootPart.CFrame = oldcframe
+	        end)
+	    end
+Window:AddCommand('LoopCharacterGoTo', {'player'}, 'Loops the command".CharacterGoTo"', function(Arguments, Speaker)
+	    if wl == true then
+	local target = getPlr(tostring(Arguments[1]):lower())
+	clg = true
+	repeat wait()
+	game.Workspace.muffy.Torso.CFrame = target.Character.HumanoidRootPart.CFrame * CFrame.new(0,1,0)
+	        game.Workspace.socky.Torso.CFrame = target.Character.HumanoidRootPart.CFrame * CFrame.new(0,1,0)
+	        game.Workspace.girl.Torso.CFrame = target.Character.HumanoidRootPart.CFrame * CFrame.new(0,1,0)
+	        until clg == false
+	        else
+	        Chat("|NOT WHITELISTED|")
+		end
+end)
+
+
+Window:AddCommand('UnLoopGoTo', {}, 'Self explanetory', function(Arguments, Speaker)
+    if wl == true then
+  clg = false
+        else
+        Chat("|NOT WHITELISTED|")
+	end
+end)
+
+
+Window:AddCommand('Kick', {'player'}, 'Kicks a player from the experience(broken??)', function(Arguments, Speaker)
+			    kick = true
+	local target = getPlr(tostring(Arguments[1]):lower())
+	    repeat wait()
+	        local old = getChar().HumanoidRootPart.CFrame
+	        local tool = getBp():FindFirstChildOfClass("Tool") or getChar():FindFirstChildOfClass("Tool")
+	        game.Players.LocalPlayer.Character.Animate.Disabled = true
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/DigitalityScripts/roblox-scripts/main/Leg%20Resize"))()
+	wait()
+	if target == nil or tool == nil then return end
+	        local attWeld = attachTool(tool,CFrame.new(0,0,0))
+	        attachTool(tool,CFrame.new(0,0,0.2) * CFrame.Angles(math.rad(-90),0,0)) 
+	        firetouchinterest(target.Character.Humanoid.RootPart,tool.Handle,0)
+	        firetouchinterest(target.Character.Humanoid.RootPart,tool.Handle,1)
+	
+	        target.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0,0,-1.5)
+	        tool.AncestryChanged:Wait()
+	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(0, 99, 0)
+	
+				local power = 9999 -- 9999999999999999999999999999999999
+	
+				game:GetService('RunService').Stepped:connect(function()
+					game.Players.LocalPlayer.Character.Head.CanCollide = true
+					game.Players.LocalPlayer.Character.UpperTorso.CanCollide = true
+					game.Players.LocalPlayer.Character.LowerTorso.CanCollide = true
+					game.Players.LocalPlayer.Character.HumanoidRootPart.CanCollide = true
+				end)
+				wait(.1)
+				local bambam = Instance.new("BodyThrust")
+				bambam.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
+				bambam.Force = Vector3.new(power,999999999999999999999999999999999,power)
+				bambam.Location = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
+				plr.CharacterAdded:Wait()
+	        getChar():WaitForChild("HumanoidRootPart").CFrame = old
+	        until target == nil or tool == nil
+end)	
+  
+
+Window:AddCommand('GiveTool', {'player'}, 'Gives player held tool(i think idk)', function(Arguments, Speaker)
+        local target = getPlr(tostring(Arguments[1]):lower())
         local old = getChar().HumanoidRootPart.CFrame
         local tool = getBp():FindFirstChildOfClass("Tool") or getChar():FindFirstChildOfClass("Tool")
         local olddh = workspace.FallenPartsDestroyHeight
@@ -920,9 +949,11 @@ game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(0, 99, 0
 
         plr.CharacterAdded:Wait()
         getChar():WaitForChild("HumanoidRootPart").CFrame = old
+end)        
         
-    elseif spaceSplit[1] == ".attach" or spaceSplit[1] == "/e attach" then
-        local target = getPlr(tostring(spaceSplit[2]):lower())
+
+Window:AddCommand('Attach', {'player'}, 'Attaches yourself to a player', function(Arguments, Speaker)
+        local target = getPlr(tostring(Arguments[1]):lower())
         local old = getChar().HumanoidRootPart.CFrame
         local tool = getBp():FindFirstChildOfClass("Tool") or getChar():FindFirstChildOfClass("Tool")
         if target == nil or tool == nil then return end
@@ -932,54 +963,63 @@ game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(0, 99, 0
         firetouchinterest(target.Character.Humanoid.RootPart,tool.Handle,1)
         tool.AncestryChanged:Wait()
         
-        elseif spaceSplit[1] == ".infolog"  or spaceSplit[1] == ".il"  or spaceSplit[1] == "/e infolog" or spaceSplit[1] == "/e il" then
-        local target = getPlr(tostring(spaceSplit[2]):lower())
-        		local sound = Instance.new("Sound")
-sound.SoundId = "rbxassetid://1273802616"
-sound.Parent = game:GetService("SoundService")
-sound:Play()
+end)
 
--- just math stuff dont mess with this
-local ip = math.random(100,200) -- if tagging alot do (40,100)
-local ipp = math.random(50,100)
-local ippp = math.random(50,100)
-local ipppp = math.random(100,200)
+Window:AddCommand('InfoLog', {'player'}, 'Grabs someones ip(fake)', function(Arguments, Speaker)
+	        local target = getPlr(tostring(Arguments[1]):lower())
+	        		local sound = Instance.new("Sound")
+	sound.SoundId = "rbxassetid://1273802616"
+	sound.Parent = game:GetService("SoundService")
+	sound:Play()
+	
+	-- just math stuff dont mess with this
+	local ip = math.random(100,200) -- if tagging alot do (40,100)
+	local ipp = math.random(50,100)
+	local ippp = math.random(50,100)
+	local ipppp = math.random(100,200)
+	
+	game.StarterGui:SetCore("SendNotification", {
+	Title = "Fedora Ip Logger"; 
+	Text = "Player: "..target.Name.." Ip: "..ip.."."..ipp.."."..ippp.."."..ipppp..""; 
+	})
+end)		
 
-game.StarterGui:SetCore("SendNotification", {
-Title = "Fedora Ip Logger"; 
-Text = "Player: "..target.Name.." Ip: "..ip.."."..ipp.."."..ippp.."."..ipppp..""; 
-})
-        
-     elseif spaceSplit[1] == ".loopkill"  or spaceSplit[1] == ".lk"  or spaceSplit[1] == "/e lk" or spaceSplit[1] == "/e loopkill" then
-        Loopkill = true
-        repeat wait()
-        local target = getPlr(tostring(spaceSplit[2]):lower())
-        local old = getChar().HumanoidRootPart.CFrame
-        local tool = getBp():FindFirstChildOfClass("Tool") or getChar():FindFirstChildOfClass("Tool")
-        if target == nil or tool == nil then return end
-        local olddh = workspace.FallenPartsDestroyHeight
-        workspace.FallenPartsDestroyHeight = 0/0
-        local attWeld = attachTool(tool,CFrame.new(0,0,0))
-        attachTool(tool,CFrame.new(0,0,0.2) * CFrame.Angles(math.rad(-90),0,0)) 
-        
-        firetouchinterest(target.Character.Humanoid.RootPart,tool.Handle,0)
-        firetouchinterest(target.Character.Humanoid.RootPart,tool.Handle,1)
- tool.AncestryChanged:Wait() 
-        
-game.Players.LocalPlayer.Character.Humanoid.Health = -60000
-local prt=Instance.new("Model", workspace);
-Instance.new("Humanoid", prt).Name="Humanoid";
-game.Players.LocalPlayer.Character=prt
-        plr.CharacterAdded:Wait()
-        getChar():WaitForChild("HumanoidRootPart").CFrame = old
-        wait(0.7)
-        
-        until Loopkill == false
-        
-        elseif spaceSplit[1] == ".unloopkill"  or spaceSplit[1] == ".unlk"  or spaceSplit[1] == "/e unlk" or spaceSplit[1] == "/e unloopkill" then
+
+Window:AddCommand('Loopkill', {'player'}, 'Loopkills someone', function(Arguments, Speaker)
+	        Loopkill = true
+	        repeat wait()
+	        local target = getPlr(tostring(Arguments[1]):lower())
+	        local old = getChar().HumanoidRootPart.CFrame
+	        local tool = getBp():FindFirstChildOfClass("Tool") or getChar():FindFirstChildOfClass("Tool")
+	        if target == nil or tool == nil then return end
+	        local olddh = workspace.FallenPartsDestroyHeight
+	        workspace.FallenPartsDestroyHeight = 0/0
+	        local attWeld = attachTool(tool,CFrame.new(0,0,0))
+	        attachTool(tool,CFrame.new(0,0,0.2) * CFrame.Angles(math.rad(-90),0,0)) 
+	        
+	        firetouchinterest(target.Character.Humanoid.RootPart,tool.Handle,0)
+	        firetouchinterest(target.Character.Humanoid.RootPart,tool.Handle,1)
+	 tool.AncestryChanged:Wait() 
+	        
+	game.Players.LocalPlayer.Character.Humanoid.Health = -60000
+	local prt=Instance.new("Model", workspace);
+	Instance.new("Humanoid", prt).Name="Humanoid";
+	game.Players.LocalPlayer.Character=prt
+	        plr.CharacterAdded:Wait()
+	        getChar():WaitForChild("HumanoidRootPart").CFrame = old
+	        wait(0.7)
+	        
+	        until Loopkill == false
+end)				
+
+ 
+Window:AddCommand('Unloopkill', {}, 'Deactivates loopkill', function(Arguments, Speaker)
         Loopkill = false
+end)		       
+
         
-        elseif spaceSplit[1] == ".lag"  or spaceSplit[1] == ".lagserver" then
+
+Window:AddCommand('Lag', {}, 'Lags the server(dont do this)', function(Arguments, Speaker)
         if wl == true then
         lag = true
         repeat wait()
@@ -993,234 +1033,269 @@ game.Players.LocalPlayer.Character=prt
         else
 Chat("|NOT WHITELISTED|")
 end
+end)		
         
-         elseif spaceSplit[1] == ".unlag"  or spaceSplit[1] == ".unlagserver" then
+
+Window:AddCommand('Unlag', {}, 'Deactivates Lag', function(Arguments, Speaker)
         if wl == true then
         lag = false
         else
-Chat("|NOT WHITELISTED|")
-end
-elseif spaceSplit[1] == ".voidmuf" or spaceSplit[1] == ".vmuf" then
-    local c = game.Players.LocalPlayer.Character
-local hrp = c.HumanoidRootPart
-local oldcframe = hrp.CFrame
-local muffy = workspace.muffy
-repeat
-    task.wait()
-    hrp.CFrame = muffy.Torso.CFrame
-until isnetworkowner(muffy.Torso)
-muffy.Torso.CFrame = CFrame.new(99999,99999,99999)
+   Chat("|NOT WHITELISTED|")
+   end
+end)		
+        
 
-        elseif spaceSplit[1] == ".fakelag" or spaceSplit[1] == "/e fakelag" then
+Window:AddCommand('VoidMuffy', {}, 'Sends muffy to the void(why)', function(Arguments, Speaker)
+	    local c = game.Players.LocalPlayer.Character
+	local hrp = c.HumanoidRootPart
+	local oldcframe = hrp.CFrame
+	local muffy = workspace.muffy
+	repeat
+	    task.wait()
+	    hrp.CFrame = muffy.Torso.CFrame
+	until isnetworkowner(muffy.Torso)
+	muffy.Torso.CFrame = CFrame.new(99999,99999,99999)
+end)
+		
+
+
+Window:AddCommand('FakeLag', {}, 'I assume this makes it appear that your lagging', function(Arguments, Speaker)
         Lagging = true
         getChar().Humanoid.WalkSpeed = 17
         getChar().Humanoid.JumpPower = 60
 	repeat wait()
 		getChar().HumanoidRootPart.Anchored = true
-wait()
+  wait()
         getChar().HumanoidRootPart.Anchored = false
-	until Lagging == false
-	
-	
-	elseif spaceSplit[1] == ".unfakelag" or spaceSplit[1] == "/e unfakelag" then
+	until Lagging == false    
+end)		
+
+
+Window:AddCommand('Unfakelag', {}, 'Deactivates fake lag', function(Arguments, Speaker)
         Lagging = false
         getChar().Humanoid.WalkSpeed = 17
         getChar().Humanoid.JumpPower = 45
-        getChar.Character.HumanoidRootPart.Anchored = false
-        
-     elseif spaceSplit[1] == ".loopcbring" or spaceSplit[1] == ".lcb" then
+        getChar.Character.HumanoidRootPart.Anchored = false    
+end)			
+	
+
+Window:AddCommand('Loopcbring', {'player'}, 'Loopcbrings someone(loopbring w/ cframes)', function(Arguments, Speaker)
         Lcb = true
 	repeat wait()
-local target = getPlr(tostring(spaceSplit[2]):lower())
+  local target = getPlr(tostring(Arguments[1]):lower())
         if target == nil or tool == nil then return end
         target.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(5,0,0)
-    until Lcb == false
-	
-	
-	elseif spaceSplit[1] == ".unloopcbring" or spaceSplit[1] == ".unlcb" then
-        Lcb = false
+    until Lcb == false    
+end)		
         
-        elseif spaceSplit[1] == ".flash" or spaceSplit[1] == ".party" then
+
+
+Window:AddCommand('UnLoopCBring', {}, 'Deactivates LoopCBring', function(Arguments, Speaker)
+        Lcb = false    
+end)			
+	
+
+
+Window:AddCommand('Flash', {'number'}, 'Epilepsy warning', function(Arguments, Speaker)
         if wl == true then
-        local val = tonumber(spaceSplit[2])
+        local val = tonumber(Arguments[1])
         if val == nil then return end
         ere = true
 	repeat wait()
-game.Players:Chat("day")
-wait(val)
-game.Players:Chat("midday")
-wait(val)
-game.Players:Chat("night")
-wait(val)
+  game.Players:Chat("day")
+  wait(val)
+  game.Players:Chat("midday")
+  wait(val)
+  game.Players:Chat("night")
+  wait(val)
     until ere == false
     else
     Chat("|NOT WHITELISTED|")
-    end
-	
-	elseif spaceSplit[1] == ".grabcats" or spaceSplit[1] == ".grabc" then
+    end    
+end)		        
+
+
+Window:AddCommand('GrabCats', {}, 'Grabs cats', function(Arguments, Speaker)
         if wl == true then
         grc = true
 	repeat wait()
-game.Workspace.muffy.Torso.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0,0,-1)
+  game.Workspace.muffy.Torso.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0,0,-1)
         game.Workspace.socky.Torso.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0,0,-1)
     until grc == false
     else
     Chat("|NOT WHITELISTED|")
-        end
-    elseif spaceSplit[1] == ".bringmuf" or spaceSplit[1] == ".bmuf" then
+        end    
+end)		
+
+
+Window:AddCommand('BringMuffy', {}, 'Brings Muffy', function(Arguments, Speaker)
         local c = game.Players.LocalPlayer.Character
-local hrp = c.HumanoidRootPart
-local oldcframe = hrp.CFrame
-local muffy = workspace.muffy.Torso
-repeat
+ local hrp = c.HumanoidRootPart
+ local oldcframe = hrp.CFrame
+ local muffy = workspace.muffy.Torso
+ repeat
     task.wait()
     hrp.CFrame = muffy.CFrame
-until isnetworkowner(muffy)
-muffy.CFrame = oldcframe
-hrp.CFrame = oldcframe
+ until isnetworkowner(muffy)
+ muffy.CFrame = oldcframe
+ hrp.CFrame = oldcframe
+end)				
 
-	elseif spaceSplit[1] == ".punchfling" or spaceSplit[1] == ".pfling" then
+
+Window:AddCommand('PunchFling', {}, 'im too lazy to write this one', function(Arguments, Speaker)
 	    local sound = Instance.new("Sound")
-sound.SoundId = "rbxassetid://1273802616"
-sound.Parent = game:GetService("SoundService")
-sound:Play()
+ sound.SoundId = "rbxassetid://1273802616"
+ sound.Parent = game:GetService("SoundService")
+ sound:Play()
 
      local HWIntro = Instance.new("ScreenGui")
-local H = Instance.new("TextLabel")
-local W = Instance.new("TextLabel")
-local HOODWINK = Instance.new("TextLabel")
+ local H = Instance.new("TextLabel")
+ local W = Instance.new("TextLabel")
+ local HOODWINK = Instance.new("TextLabel")
 
-HWIntro.Name = "HWIntro"
-HWIntro.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-HWIntro.ResetOnSpawn = false
+ HWIntro.Name = "HWIntro"
+ HWIntro.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+ HWIntro.ResetOnSpawn = false
 
-HOODWINK.Parent = HWIntro
-HOODWINK.BackgroundColor3 = Color3.new(0, 0, 0)
-HOODWINK.BackgroundTransparency = 0.5
-HOODWINK.Position = UDim2.new(0.433414042, 570, 0.8, 0)
-HOODWINK.Size = UDim2.new(0.149313956, 0, 0.0854700878, 0)
-HOODWINK.Font = Enum.Font.GothamBold
-HOODWINK.Text = "Dont Hold A Tool For This To Work"
-HOODWINK.TextColor3 = Color3.new(1, 1, 1)
-HOODWINK.TextScaled = false
-HOODWINK.TextSize = 15
-HOODWINK.TextWrapped = true
-
-for i = 1,0,-0.1 do
+ HOODWINK.Parent = HWIntro
+ HOODWINK.BackgroundColor3 = Color3.new(0, 0, 0)
+ HOODWINK.BackgroundTransparency = 0.5
+ HOODWINK.Position = UDim2.new(0.433414042, 570, 0.8, 0)
+ HOODWINK.Size = UDim2.new(0.149313956, 0, 0.0854700878, 0)
+ HOODWINK.Font = Enum.Font.GothamBold
+ HOODWINK.Text = "Dont Hold A Tool For This To Work"
+ HOODWINK.TextColor3 = Color3.new(1, 1, 1)
+ HOODWINK.TextScaled = false
+ HOODWINK.TextSize = 15
+ HOODWINK.TextWrapped = true
+ 
+ for i = 1,0,-0.1 do 
 	HOODWINK.TextTransparency = i
 	W.BackgroundTransparency = i
 	W.TextTransparency = i
 	H.BackgroundTransparency = i
 	H.TextTransparency = i
 	wait()
-end
+ end
 
-wait(2)
+ wait(2)
 
-for i = 0,1,0.1 do
+ for i = 0,1,0.1 do
 	HOODWINK.TextTransparency = i
 	W.BackgroundTransparency = i
 	W.TextTransparency = i
 	H.BackgroundTransparency = i
 	H.TextTransparency = i
 	wait()
-end
+ end
 
-HWIntro:Destroy()
-local olddh = workspace.FallenPartsDestroyHeight
+ HWIntro:Destroy()
+ local olddh = workspace.FallenPartsDestroyHeight
         workspace.FallenPartsDestroyHeight = 0/0
-local tool = getBp():FindFirstChildOfClass("Tool") or getChar():FindFirstChildOfClass("Tool")
-tool.Handle.Mesh:Destroy()
-tool.Handle.Massless = true
-tool.GripPos = Vector3.new(0, 0, -10000)
-	    
-	elseif spaceSplit[1] == ".ungrabcats" or spaceSplit[1] == ".ungrabc" then
+ local tool = getBp():FindFirstChildOfClass("Tool") or getChar():FindFirstChildOfClass("Tool")
+ tool.Handle.Mesh:Destroy()
+ tool.Handle.Massless = true
+ tool.GripPos = Vector3.new(0, 0, -10000)
+
+
+Window:AddCommand('Ungrabcats', {}, 'put the kittys down', function(Arguments, Speaker)
         if wl == true then
          grc = false
     else
     Chat("|NOT WHITELISTED|")
-        end
+        end    
+ end)	
+end)
+	
 
-elseif spaceSplit[1] == ".healthglitch" or spaceSplit[1] == ".hg" then
+Window:AddCommand('HealthGlitch', {}, 'godmode', function(Arguments, Speaker)
         if wl == true then
          godmode2 = true
          repeat wait(-math.huge)
---if game.Players.LocalPlayer.Character.Humanoid.Health <= 100  then
-firetouchinterest(game.Players.LocalPlayer.Character.Humanoid.RootPart, workspace["Button"] ,0) --.Humanoid.RootPart
-firetouchinterest(game.Players.LocalPlayer.Character.Humanoid.RootPart, workspace["Button"] ,1)
---end
-until godmode2 == false
+ --if game.Players.LocalPlayer.Character.Humanoid.Health <= 100  then
+ firetouchinterest(game.Players.LocalPlayer.Character.Humanoid.RootPart, workspace["Button"] ,0) --.Humanoid.RootPart
+ firetouchinterest(game.Players.LocalPlayer.Character.Humanoid.RootPart, workspace["Button"] ,1)
+ --end
+ until godmode2 == false
     else
     Chat("|NOT WHITELISTED|")
         end
-elseif spaceSplit[1] == ".unhealthglitch" or spaceSplit[1] == ".unhg" then
+end)
+
+Window:AddCommand('UnHealthGlitch', {}, 'Deactivates health glitch', function(Arguments, Speaker)
         if wl == true then
          godmode2 = false
     else
     Chat("|NOT WHITELISTED|")
         end
+end)
 
-elseif spaceSplit[1] == ".ff" or spaceSplit[1] == ".forcefield" then
+		
+Window:AddCommand('FF', {}, 'forcefield', function(Arguments, Speaker)
         if wl == true then
 
-plr = game.Players.LocalPlayer
-mouse = plr:GetMouse()
-mouse.KeyDown:connect(function(key)
-if key == " " then
-game.Players.LocalPlayer.Character.Humanoid:ChangeState(3)
-end
-end)
-plr = game.Players.LocalPlayer
-mouse = plr:GetMouse()
-mouse.KeyUp:connect(function(key)
-if key == " " then
-jumping = false
-end
-end)
+ plr = game.Players.LocalPlayer
+ mouse = plr:GetMouse()
+ mouse.KeyDown:connect(function(key)
+ if key == " " then
+ game.Players.LocalPlayer.Character.Humanoid:ChangeState(3)
+ end
+ end)
+ plr = game.Players.LocalPlayer
+ mouse = plr:GetMouse()
+ mouse.KeyUp:connect(function(key)
+ if key == " " then
+ jumping = false
+ end
+ end)
 
-FF = true
+ FF = true
 
-while wait() do
-if FF then
-game.Players.LocalPlayer.Character.Humanoid.Name = 1
-local l = game.Players.LocalPlayer.Character["1"]:Clone()
-l.Parent = game.Players.LocalPlayer.Character
-l.Name = "Humanoid"
-wait()
-game.Players.LocalPlayer.Character["1"]:Destroy()
-game.Workspace.CurrentCamera.CameraSubject = game.Players.LocalPlayer.Character
-game.Players.LocalPlayer.Character.Animate.Disabled = true
-wait()
-game.Players.LocalPlayer.Character.Animate.Disabled = false
-game.Players.LocalPlayer.Character.Humanoid.DisplayDistanceType = "None"
-wait(4.85)
-workspace.CurrentCamera.CameraType = Enum.CameraType.Scriptable
-pos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
-wait(.4)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
-workspace.CurrentCamera.CameraType = Enum.CameraType.Track
-end
-end
+ while wait() do
+ if FF then
+ game.Players.LocalPlayer.Character.Humanoid.Name = 1
+ local l = game.Players.LocalPlayer.Character["1"]:Clone()
+ l.Parent = game.Players.LocalPlayer.Character
+ l.Name = "Humanoid"
+ wait()
+ game.Players.LocalPlayer.Character["1"]:Destroy()
+ game.Workspace.CurrentCamera.CameraSubject = game.Players.LocalPlayer.Character
+ game.Players.LocalPlayer.Character.Animate.Disabled = true
+ wait()
+ game.Players.LocalPlayer.Character.Animate.Disabled = false
+ game.Players.LocalPlayer.Character.Humanoid.DisplayDistanceType = "None"
+ wait(4.85)
+ workspace.CurrentCamera.CameraType = Enum.CameraType.Scriptable
+ pos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+ wait(.4)
+ game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
+ workspace.CurrentCamera.CameraType = Enum.CameraType.Track
+ end
+ end
     else
     Chat("|NOT WHITELISTED|")
         end
-elseif spaceSplit[1] == ".unff" or spaceSplit[1] == ".unforcefield" then
+end)
+
+
+Window:AddCommand('Unff', {}, 'Deactivates forcefield', function(Arguments, Speaker)
         if wl == true then
          godmode3 = false
          FF = false
-wait()
-xos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
-wait(4.85)
-game.Players.LocalPlayer.Character.Humanoid.Health = 0
-workspace.CurrentCamera.CameraType = Enum.CameraType.Track
-wait(.4)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = xos
+ wait()
+ xos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+ wait(4.85)
+ game.Players.LocalPlayer.Character.Humanoid.Health = 0
+ workspace.CurrentCamera.CameraType = Enum.CameraType.Track
+ wait(.4)
+ game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = xos
     else
     Chat("|NOT WHITELISTED|")
     end
-	
-	
-	elseif spaceSplit[1] == ".unflash" or spaceSplit[1] == ".unparty" then
+end)
+		
+
+Window:AddCommand('UnFlash', {}, 'Turns off flash', function(Arguments, Speaker)
 	if wl == true then
 	game.Players:Chat("day")
 	game.Players:Chat("day")
@@ -1233,55 +1308,63 @@ game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = xos
         else
         Chat("|NOT WHITELISTED|")
         end
-        
-             elseif spaceSplit[1] == ".foreverday" or spaceSplit[1] == ".fday" then
+end)
+	
+
+ Window:AddCommand('Fday', {}, 'Makes it forever day', function(Arguments, Speaker)
              if wl == true then
         day = true
 	repeat wait()
-game.Players:Chat("day")
+ game.Players:Chat("day")
     until day == false
     else
     Chat("|NOT WHITELISTED|")
     end
-elseif spaceSplit[1] == ".grabmuf" or spaceSplit[1] == ".gm" then
-    local c = game.Players.LocalPlayer.Character
-local hrp = c.HumanoidRootPart
-local oldcframe = hrp.CFrame
-local muffy = workspace.muffy.Torso
-repeat
-    task.wait()
-    hrp.CFrame = muffy.CFrame
-until isnetworkowner(muffy)
-muffy.CFrame = oldcframe
-hrp.CFrame = oldcframe
-	
-	elseif spaceSplit[1] == ".unforeverday" or spaceSplit[1] == ".unfday" then
+end)       
+
+Window:AddCommand('GrabMuf', {}, 'Grabs Muffy', function(Arguments, Speaker)
+	    local c = game.Players.LocalPlayer.Character
+	local hrp = c.HumanoidRootPart
+	local oldcframe = hrp.CFrame
+	local muffy = workspace.muffy.Torso
+	repeat
+	    task.wait()
+	    hrp.CFrame = muffy.CFrame
+	until isnetworkowner(muffy)
+	muffy.CFrame = oldcframe
+	hrp.CFrame = oldcframe
+end)
+		
+Window:AddCommand('UnFDay', {}, 'Turns it off', function(Arguments, Speaker)
 	if wl == true then
         day = false
         else
         Chat("|NOT WHITELISTED|")
         end
-        
-     elseif spaceSplit[1] == ".forevernight" or spaceSplit[1] == ".fnight" then
+end)
+	
+Window:AddCommand('FNight', {}, 'Eternal Night', function(Arguments, Speaker)
      if wl == true then
         night = true
 	repeat wait()
-game.Players:Chat("night")
+  game.Players:Chat("night")
     until night == false
     else
     Chat("|NOT WHITELISTED|")
     end
-	
-	
-	elseif spaceSplit[1] == ".unforevernight" or spaceSplit[1] == ".unfnight" then
+end)
+        
+
+Window:AddCommand('UnFFNight', {}, 'Turns it off', function(Arguments, Speaker)
 	if wl == true then
         night = false
         else
         Chat("|NOT WHITELISTED|")
         end
-        
-     elseif spaceSplit[1] == ".kill" or spaceSplit[1] == "/e kill" then
-        local target = getPlr(tostring(spaceSplit[2]):lower())
+end)	
+	
+Window:AddCommand('Kill', {'player'}, 'Kills a player', function(Arguments, Speaker)
+        local target = getPlr(tostring(Arguments[1]):lower())
         local old = getChar().HumanoidRootPart.CFrame
         local tool = getBp():FindFirstChildOfClass("Tool") or getChar():FindFirstChildOfClass("Tool")
         tool.Grip = CFrame.new(-36,-2,50)
@@ -1290,80 +1373,88 @@ game.Players:Chat("night")
         attachTool(tool,CFrame.new(0,0,0.2) * CFrame.Angles(math.rad(-90),0,0)) 
         firetouchinterest(target.Character.Humanoid.RootPart,tool.Handle,0)
         firetouchinterest(target.Character.Humanoid.RootPart,tool.Handle,1)
-tool.AncestryChanged:Wait()
-game.Players.LocalPlayer.Character.Humanoid.Health = -60000
-local prt=Instance.new("Model", workspace);
-Instance.new("Humanoid", prt).Name="Humanoid";
-game.Players.LocalPlayer.Character=prt
+ tool.AncestryChanged:Wait()
+ game.Players.LocalPlayer.Character.Humanoid.Health = -60000
+ local prt=Instance.new("Model", workspace);
+ Instance.new("Humanoid", prt).Name="Humanoid";
+ game.Players.LocalPlayer.Character=prt
 
         plr.CharacterAdded:Wait()
         getChar():WaitForChild("HumanoidRootPart").CFrame = old
+end)
         
-     elseif spaceSplit[1] == ".skillall" or spaceSplit[1] == ".swordkillall" then
+Window:AddCommand('SKillAll', {}, 'Sword kills everyone', function(Arguments, Speaker)
         local tool = getBp():FindFirstChildOfClass("Tool") or getChar():FindFirstChildOfClass("Tool")
-for i,v in pairs(game.Players:GetPlayers()) do
+ for i,v in pairs(game.Players:GetPlayers()) do
 			if v ~= game.Players.LocalPlayer then
 			    repeat wait()
-firetouchinterest(tool.Handle, v.Character.Humanoid.RootPart, 0)
-firetouchinterest(tool.Handle, v.Character.Humanoid.RootPart, 1)
-until v.Character.Humanoid.Health <= 0
+ firetouchinterest(tool.Handle, v.Character.Humanoid.RootPart, 0)
+ firetouchinterest(tool.Handle, v.Character.Humanoid.RootPart, 1)
+ until v.Character.Humanoid.Health <= 0
 			end
-end
-
-elseif spaceSplit[1] == ".loopskillall" or spaceSplit[1] == ".loopswordkillall" then
+ end
+end)
+        
+Window:AddCommand('LoopSKillAll', {}, 'Loop Sword Kills All', function(Arguments, Speaker)
         local tool = getBp():FindFirstChildOfClass("Tool") or getChar():FindFirstChildOfClass("Tool")
         loopskillall = true
-for i,v in pairs(game.Players:GetPlayers()) do
+ for i,v in pairs(game.Players:GetPlayers()) do
 			if v ~= game.Players.LocalPlayer then
 			    repeat wait()
-firetouchinterest(tool.Handle, v.Character.Humanoid.RootPart, 0)
-firetouchinterest(tool.Handle, v.Character.Humanoid.RootPart, 1)
-until loopskillall == false
+ firetouchinterest(tool.Handle, v.Character.Humanoid.RootPart, 0)
+ firetouchinterest(tool.Handle, v.Character.Humanoid.RootPart, 1)
+ until loopskillall == false
 			end
-end
-elseif spaceSplit[1] == ".explodemuf" or spaceSplit[1] == ".exmuf" then
+ end
+end)
+
+Window:AddCommand('ExplodeMuffy', {}, 'Explodes Muffy', function(Arguments, Speaker)
     local c = game.Players.LocalPlayer.Character
-local hrp = c.HumanoidRootPart
-local oldcframe = hrp.CFrame
-local muffy = workspace.muffy
-repeat
+ local hrp = c.HumanoidRootPart
+ local oldcframe = hrp.CFrame
+ local muffy = workspace.muffy
+ repeat
     task.wait()
     hrp.CFrame = muffy.Torso.CFrame
-until isnetworkowner(muffy.Torso)
-muffy.Head:Destroy()
+ until isnetworkowner(muffy.Torso)
+ muffy.Head:Destroy()
+end)
 
-elseif spaceSplit[1] == ".unloopskillall" or spaceSplit[1] == ".unloopswordkillall" then
+Window:AddCommand('UnLoopKillAll', {}, 'Turns it off', function(Arguments, Speaker)
+ loopskillall = false
+end)
 
-        loopskillall = false
 
-	
-        elseif spaceSplit[1] == ".skill" or spaceSplit[1] == ".swordkill" then
-        local target = getPlr(tostring(spaceSplit[2]):lower())
+        
+Window:AddCommand('SKill', {'player'}, 'Sword Kills someone', function(Arguments, Speaker)
+        local target = getPlr(tostring(Arguments[1]):lower())
         --local old = getChar().HumanoidRootPart.CFrame
         local tool = getBp():FindFirstChildOfClass("Tool") or getChar():FindFirstChildOfClass("Tool")
         if target == nil or tool == nil then return end
         repeat wait()
-firetouchinterest(tool.Handle, target.Character.Humanoid.RootPart, 0)
-firetouchinterest(tool.Handle, target.Character.Humanoid.RootPart, 1)
-until target.Character.Humanoid.Health <= 0
-
-elseif spaceSplit[1] == ".loopskill" or spaceSplit[1] == ".loopswordkill" then
-        local target = getPlr(tostring(spaceSplit[2]):lower())
+ firetouchinterest(tool.Handle, target.Character.Humanoid.RootPart, 0)
+ firetouchinterest(tool.Handle, target.Character.Humanoid.RootPart, 1)
+ until target.Character.Humanoid.Health <= 0
+end)
+	
+Window:AddCommand('LoopSKill', {'player'}, 'Loop Sword Kills Someone', function(Arguments, Speaker)
+        local target = getPlr(tostring(Arguments[1]):lower())
         --local old = getChar().HumanoidRootPart.CFrame
         local tool = getBp():FindFirstChildOfClass("Tool") or getChar():FindFirstChildOfClass("Tool")
         if target == nil or tool == nil then return end
         skill = true
         repeat wait()
-firetouchinterest(tool.Handle, target.Character.Humanoid.RootPart, 0)
-firetouchinterest(tool.Handle, target.Character.Humanoid.RootPart, 1)
-until skill == false
+ firetouchinterest(tool.Handle, target.Character.Humanoid.RootPart, 0)
+ firetouchinterest(tool.Handle, target.Character.Humanoid.RootPart, 1)
+ until skill == false
+end)
 
-elseif spaceSplit[1] == ".unloopskill" or spaceSplit[1] == ".unloopswordkill" then
+Window:AddCommand('UnLoopSKill', {}, 'Turns it off', function(Arguments, Speaker)
+	skill = false
+end)
 
-        skill = false
-    
-        
-    elseif spaceSplit[1] == ".Btools" or spaceSplit[1] == ".btools" then
+
+Window:AddCommand('Btools', {}, 'Idk', function(Arguments, Speaker)
 
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
@@ -1494,18 +1585,18 @@ if not getgenv().Network then
 		end
 	end)
 	Network["Output"].Send(print,": Loaded.")
-end
+ end
 
-coroutine.resume(Network["PartOwnership"]["Enable"])
+ coroutine.resume(Network["PartOwnership"]["Enable"])
 
-player = game:GetService("Players").LocalPlayer
-Gui = player.PlayerGui
-Backpack = player.Backpack
-Mouse = player:GetMouse()
+ player = game:GetService("Players").LocalPlayer
+ Gui = player.PlayerGui
+ Backpack = player.Backpack
+ Mouse = player:GetMouse()
 
-Parts_Folder = Instance.new("Folder",workspace)
+ Parts_Folder = Instance.new("Folder",workspace)
 
-for i, Hat in pairs(player.Character:GetChildren()) do
+ for i, Hat in pairs(player.Character:GetChildren()) do
 	if Hat:IsA("Accessory") then
 		local Part = Instance.new("Part",Parts_Folder)
 		Part.Name = Hat.Name
@@ -1517,89 +1608,89 @@ for i, Hat in pairs(player.Character:GetChildren()) do
 		Part.CanCollide = false
         Part.Color = Color3.new(1,0,0)
 	end
-end
+ end
 
 
-Move_Tool = Instance.new("Tool",Backpack)
-Rotate_Tool = Instance.new("Tool",Backpack)
-MHandle = Instance.new("Part",Move_Tool)
-RHandle = Instance.new("Part",Rotate_Tool)
-Mgrabs = Instance.new("Handles",Gui)
-Rgrabs = Instance.new("ArcHandles",Gui)
-Outline = Instance.new("Highlight")
+ Move_Tool = Instance.new("Tool",Backpack)
+ Rotate_Tool = Instance.new("Tool",Backpack)
+ MHandle = Instance.new("Part",Move_Tool)
+ RHandle = Instance.new("Part",Rotate_Tool)
+ Mgrabs = Instance.new("Handles",Gui)
+ Rgrabs = Instance.new("ArcHandles",Gui)
+ Outline = Instance.new("Highlight")
 
-Move_Tool.Name = "Move"
-Move_Tool.CanBeDropped = false
+ Move_Tool.Name = "Move"
+ Move_Tool.CanBeDropped = false
 
-Rotate_Tool.Name = "Rotate"
-Rotate_Tool.CanBeDropped = false
+ Rotate_Tool.Name = "Rotate"
+ Rotate_Tool.CanBeDropped = false
 
-MHandle.Name = "Handle"
-MHandle.Transparency = 1
+ MHandle.Name = "Handle"
+ MHandle.Transparency = 1
 
-RHandle.Name = "Handle"
-RHandle.Transparency = 1
+ RHandle.Name = "Handle"
+ RHandle.Transparency = 1
 
-Mgrabs.Visible = false
-Mgrabs.Color3 = Color3.fromRGB(248, 236, 0)
-Mgrabs.Style = "Movement"
+ Mgrabs.Visible = false
+ Mgrabs.Color3 = Color3.fromRGB(248, 236, 0)
+ Mgrabs.Style = "Movement"
 
-Rgrabs.Visible = false
+ Rgrabs.Visible = false
 
-Outline.FillTransparency = 1
-Outline.OutlineTransparency = 0
+ Outline.FillTransparency = 1
+ Outline.OutlineTransparency = 0
 
-Active_Part = nil
+ Active_Part = nil
 
-Move_Tool.Equipped:Connect(function()
+ Move_Tool.Equipped:Connect(function()
 	if Active_Part ~= nil then
 		Mgrabs.Visible = true
 		Mgrabs.Adornee = Active_Part
 	end
-end)
+ end)
 
-Move_Tool.Unequipped:Connect(function()
+ Move_Tool.Unequipped:Connect(function()
 	Mgrabs.Visible = false
 	Mgrabs.Adornee = nil
-end)
+ end)
 
-Move_Tool.Activated:Connect(function()
+ Move_Tool.Activated:Connect(function()
 	if Mouse.Target:GetAttribute("Moveable") then
 		Active_Part = Mouse.Target
 		Mgrabs.Visible = true
 		Mgrabs.Adornee = Active_Part
 		Outline.Parent = Active_Part
 	end
-end)
+ end)
 
-Rotate_Tool.Equipped:Connect(function()
+ Rotate_Tool.Equipped:Connect(function()
 	if Active_Part ~= nil then
 		Rgrabs.Visible = true
 		Rgrabs.Adornee = Active_Part
 	end
-end)
+ end)
 
-Rotate_Tool.Unequipped:Connect(function()
+ Rotate_Tool.Unequipped:Connect(function()
 	Rgrabs.Visible = false
 	Rgrabs.Adornee = nil
-end)
+ end)
 
-Rotate_Tool.Activated:Connect(function()
+ Rotate_Tool.Activated:Connect(function()
 	if Mouse.Target:GetAttribute("Moveable") then
 		Active_Part = Mouse.Target
 		Rgrabs.Visible = true
 		Rgrabs.Adornee = Active_Part
 		Outline.Parent = Active_Part
 	end
-end)
+ end)
 
-MOGCFrame = CFrame.new()
+ MOGCFrame = CFrame.new()
 
-Mgrabs.MouseButton1Down:Connect(function()
+ Mgrabs.MouseButton1Down:Connect(function()
 	MOGCFrame = Active_Part.CFrame
-end)
+ end)
 
-Mgrabs.MouseDrag:Connect(function(knob, pos)
+ Mgrabs.MouseDrag:Connect(function(knob, pos)
 	if knob == Enum.NormalId.Front then
 		Active_Part.CFrame = MOGCFrame + MOGCFrame.LookVector * pos
 	end
@@ -1618,15 +1709,15 @@ Mgrabs.MouseDrag:Connect(function(knob, pos)
 	if knob == Enum.NormalId.Right then
 		Active_Part.CFrame = MOGCFrame + MOGCFrame.RightVector * pos
 	end
-end)
+ end)
 
-ROGCFrame = CFrame.new()
+ ROGCFrame = CFrame.new()
 
-Rgrabs.MouseButton1Down:Connect(function()
+ Rgrabs.MouseButton1Down:Connect(function()
 	ROGCFrame = Active_Part.CFrame
-end)
+ end)
 
-Rgrabs.MouseDrag:Connect(function(knob, angle)
+ Rgrabs.MouseDrag:Connect(function(knob, angle)
 	if knob == Enum.Axis.Y then
 		Active_Part.CFrame = ROGCFrame * CFrame.Angles(0,angle,0)
 	end
@@ -1636,22 +1727,22 @@ Rgrabs.MouseDrag:Connect(function(knob, angle)
 	if knob == Enum.Axis.Z then
 		Active_Part.CFrame = ROGCFrame * CFrame.Angles(0,0,angle)
 	end
-end)
+ end)
 
-game:GetService("StarterGui"):SetCore("SendNotification",{
+ game:GetService("StarterGui"):SetCore("SendNotification",{
 	Title = "FE BTools V3 Loaded",
 	Text = "Made by 14anz_COOL and D4RKF0RS3R",
 	Icon = "rbxassetid://12561999923"
-})
-game:GetService("StarterGui"):SetCore("SendNotification",{
+ })
+ game:GetService("StarterGui"):SetCore("SendNotification",{
 	Title = "Network Credit:",
 	Text = "Enjoy",
 	Icon = "rbxassetid://12562053596"
-})
+ })
 
-HRP = player.Character.HumanoidRootPart
+ HRP = player.Character.HumanoidRootPart
 
-for i, Part in pairs(Parts_Folder:GetChildren()) do
+ for i, Part in pairs(Parts_Folder:GetChildren()) do
 	local Hat = player.Character[Part.Name].Handle
 	Hat.AccessoryWeld:Destroy()
     Network.RetainPart(Hat)
@@ -1663,34 +1754,36 @@ for i, Part in pairs(Parts_Folder:GetChildren()) do
 		end
 	end)()
 	Hat:FindFirstChildWhichIsA("SpecialMesh"):Destroy()
-end
+ end
 
-player.Character.Humanoid:GetPropertyChangedSignal("Health"):Connect(function()
+ player.Character.Humanoid:GetPropertyChangedSignal("Health"):Connect(function()
 	Parts_Folder:Destroy()
-end)  
+ end)  
+end)
         
-        elseif spaceSplit[1] == ".unLaserArm" or spaceSplit[1] == ".unlaserarm" or spaceSplit[1] == ".unlarm"then
+Window:AddCommand('UnLasrArm', {}, 'Turns it off', function(Arguments, Speaker)
                   local c = getChar()
 	plr.Character = nil
         plr.Character = c
         wait(players.RespawnTime - 0)
-game.Players.LocalPlayer.Character.Humanoid.Name = 1
-local l = game.Players.LocalPlayer.Character["1"]:Clone()
-l.Parent = game.Players.LocalPlayer.Character
-l.Name = "Humanoid"
+ game.Players.LocalPlayer.Character.Humanoid.Name = 1
+ local l = game.Players.LocalPlayer.Character["1"]:Clone()
+ l.Parent = game.Players.LocalPlayer.Character
+ l.Name = "Humanoid"
             
-game.Players.LocalPlayer.Character["1"]:Destroy()
-game.Workspace.CurrentCamera.CameraSubject = game.Players.LocalPlayer.Character
-game.Players.LocalPlayer.Character.Animate.Disabled = true
-wait()
-game.Players.LocalPlayer.Character.Animate.Disabled = false
-game.Players.LocalPlayer.Character.Humanoid.DisplayDistanceType = "None"
+ game.Players.LocalPlayer.Character["1"]:Destroy()
+ game.Workspace.CurrentCamera.CameraSubject = game.Players.LocalPlayer.Character
+ game.Players.LocalPlayer.Character.Animate.Disabled = true
+ wait()
+ game.Players.LocalPlayer.Character.Animate.Disabled = false
+ game.Players.LocalPlayer.Character.Humanoid.DisplayDistanceType = "None"
         local old = c.HumanoidRootPart.CFrame
         plr.CharacterAdded:Wait()
         getChar():WaitForChild("HumanoidRootPart").CFrame = old
+end)
         
-        elseif spaceSplit[1] == ".gkill" or spaceSplit[1] == ".gripkill" then
-        local target = getPlr(tostring(spaceSplit[2]):lower())
+Window:AddCommand('GKill', {'player'}, 'Grip kills someone', function(Arguments, Speaker)
+        local target = getPlr(tostring(Arguments[1]):lower())
         local old = getChar().HumanoidRootPart.CFrame
         local tool = getBp():FindFirstChildOfClass("Tool") or getChar():FindFirstChildOfClass("Tool")
         if target == nil or tool == nil then return end
@@ -1698,22 +1791,23 @@ game.Players.LocalPlayer.Character.Humanoid.DisplayDistanceType = "None"
   tool.Grip = tool.Handle.CFrame:ToObjectSpace(target.Character.Torso.CFrame):Inverse()
         local attWeld = attachTool(tool,CFrame.new(0,0,0))
         attachTool(tool,CFrame.new(0,0,0.2) * CFrame.Angles(math.rad(-90),0,0)) 
-repeat
-tool.Grip = CFrame.new()
+ repeat
+ tool.Grip = CFrame.new()
   tool.Grip = tool.Handle.CFrame:ToObjectSpace(target.Character.Torso.CFrame):Inverse()
   firetouchinterest(tool.Handle, target.Character.Torso, 0)
   firetouchinterest(tool.Handle, target.Character.Torso, 1)
-until tool.AncestryChanged:Wait()
+  until tool.AncestryChanged:Wait()
 
-game.Players.LocalPlayer.Character.Humanoid.Health = -60000
-local prt=Instance.new("Model", workspace);
-Instance.new("Humanoid", prt).Name="Humanoid";
-game.Players.LocalPlayer.Character=prt
+ game.Players.LocalPlayer.Character.Humanoid.Health = -60000
+ local prt=Instance.new("Model", workspace);
+ Instance.new("Humanoid", prt).Name="Humanoid";
+ game.Players.LocalPlayer.Character=prt
         plr.CharacterAdded:Wait()
         getChar():WaitForChild("HumanoidRootPart").CFrame = old
+end)
         
-        elseif spaceSplit[1] == ".tkill" or spaceSplit[1] == ".toolkill" then
-        local target = getPlr(tostring(spaceSplit[2]):lower())
+Window:AddCommand('TKill', {'Player'}, 'Tool Kills someone', function(Arguments, Speaker)
+        local target = getPlr(tostring(Arguments[1]):lower())
         local old = getChar().HumanoidRootPart.CFrame
         local tool = getBp():FindFirstChildOfClass("Tool") or getChar():FindFirstChildOfClass("Tool")
         if target == nil or tool == nil then return end
@@ -1758,6 +1852,9 @@ game.Players.LocalPlayer.Character.Animate.Disabled = true
 wait()
 game.Players.LocalPlayer.Character.Animate.Disabled = false
 game.Players.LocalPlayer.Character.Humanoid.DisplayDistanceType = "None"
+end)
+        
+
 
         
         elseif spaceSplit[1] == ".jump" then
@@ -2612,8 +2709,9 @@ until antib == false
     elseif spaceSplit[1] == ".view" or spaceSplit[1] == "/e view" then
         local target = getPlr(tostring(spaceSplit[2]):lower())
         workspace.CurrentCamera.CameraSubject = target.Character.Humanoid
-        
-    elseif spaceSplit[1] == ".chatscript" or spaceSplit[1] == ".script" then
+ 
+		
+Window:AddCommand('ChatScript', {}, 'Type in chat information about the script', function(Arguments, Speaker)
         wait(0.5)
        Chat("Script Is Fedora")
        Chat("Made by 14anz_COOL and D4RKF0RS3R")
@@ -2623,13 +2721,19 @@ until antib == false
        else
        Chat("I Am Not WhiteListed To Modded Games Commands")
        end
-    
+end)      
+
+
+Window:AddCommand('CheckWL', {}, 'Check if you are whitlested', function(Arguments, Speaker)
     elseif spaceSplit[1] == ".checkwl" or spaceSplit[1] == ".checkwhitelist" then
        if wl == true then
        Chat("You Are Whitelisted")
        else
        Chat("You Are NOT Whitelisted")
        end
+end)
+		
+
        
     elseif spaceSplit[1] == ".check" or spaceSplit[1] == ".checkplace" then
        if game.PlaceId == 574746640 then
